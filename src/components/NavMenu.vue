@@ -41,12 +41,11 @@ export default {
       this.syncMagicShape(ele);
     },
     syncMagicShape(ele) {
-      const { offsetLeft, offsetTop } = ele;
-      const { width, height } = ele.getBoundingClientRect();
+      const { offsetLeft, offsetTop, offsetHeight, offsetWidth } = ele;
 
       this.magicShapeStyles = {
-        width: `${width}px`,
-        height: `${height}px`,
+        width: `${offsetWidth}px`,
+        height: `${offsetHeight}px`,
         top: `${offsetTop}px`,
         left: `${offsetLeft}px`
       };
@@ -84,7 +83,7 @@ nav {
     position: absolute;
     background: #11ad5f;
     border-radius: 20px;
-    min-width: 698px;
+    width: 100%;
     min-height: 22px;
     transition: all 0.3s ease-in-out;
     z-index: -1;
