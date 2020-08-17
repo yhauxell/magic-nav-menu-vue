@@ -4,13 +4,28 @@
       <a
         v-for="(item, index) in navItems"
         :key="index"
-        class="nav-item"
-        :class="{active: selected === index}"
+        class="nav__item"
+        :class="{'nav__item--active': selected === index}"
         @click="select($event, index)"
         :href="item.href"
       >{{item.label}}</a>
-      <span :style="magicShapeStyles" class="magicShape"></span>
+      <!--:style="magicShapeStyles"-->
+      <span class="nav__magic-line"></span>
     </nav>
+    <component :is="'style'" type="text/css">
+      .nav__item:nth-child(1).nav__item--active ~ .nav__magic-line {
+      top:25%;
+      }
+      .nav__item:nth-child(2).nav__item--active ~ .nav__magic-line {
+      top:50%
+      }
+      .nav__item:nth-child(3).nav__item--active ~ .nav__magic-line {
+      top:75%
+      }
+      .nav__item:nth-child(4).nav__item--active ~ .nav__magic-line {
+      top:100%
+      }
+    </component>
   </div>
 </template>
 
@@ -38,7 +53,7 @@ export default {
     select($event, index) {
       this.selected = index;
       const ele = $event.target;
-      this.syncMagicShape(ele);
+      //this.syncMagicShape(ele);
     },
     syncMagicShape(ele) {
       const { offsetLeft, offsetTop, offsetHeight, offsetWidth } = ele;
@@ -52,7 +67,7 @@ export default {
     }
   },
   mounted() {
-    this.syncMagicShape(this.$refs.nav.children[0]);
+    //this.syncMagicShape(this.$refs.nav.children[0]);
   }
 };
 </script>
@@ -62,7 +77,7 @@ export default {
 nav {
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   a {
     text-decoration: none;
     color: #42b983;
@@ -72,21 +87,25 @@ nav {
     &:hover {
       color: #4d8b6f;
     }
-    &.active {
+    &.nav__item--active {
       color: rgb(218, 248, 233);
     }
   }
-  .magicShape {
-    top: 0;
-    left: 0;
-    display: block;
+  .nav__magic-line {
     position: absolute;
-    background: #11ad5f;
-    border-radius: 20px;
-    width: 100%;
-    min-height: 22px;
-    transition: all 0.3s ease-in-out;
-    z-index: -1;
+    top: 25%;
+    left: 0;
+    width: 20%;
+    height: 2px;
+    pointer-events: none;
+    border: 1px solid #fff;
+    border-width: 0 2px;
+    background: #1a5a34;
+    -webkit-transition: -webkit-transform 0.5s;
+    transition: all 0.5s;
+    -webkit-transition-timing-function: cubic-bezier(1, 0.01, 0, 1);
+    -webkit-transition-timing-function: cubic-bezier(1, 0.01, 0, 1.22);
+    transition-timing-function: cubic-bezier(1, 0.01, 0, 1.22);
   }
 }
 </style>
